@@ -1,0 +1,44 @@
+import java.util.*;
+
+public class ReverseParentheses {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Example Input: (abcd)
+        System.out.print("Enter a string with parentheses: ");
+        String input = sc.nextLine();
+
+        String output = reverseParentheses(input);
+        System.out.println("Output: " + output);
+    }
+
+    public static String reverseParentheses(String s) {
+        Stack<Character> stack = new Stack<>();
+
+        for (char ch : s.toCharArray()) {
+            if (ch == ')') {
+                // Pop and reverse characters until '('
+                StringBuilder sb = new StringBuilder();
+                while (!stack.isEmpty() && stack.peek() != '(') {
+                    sb.append(stack.pop());
+                }
+                stack.pop(); // Remove the '('
+
+                // Push reversed characters back
+                for (char c : sb.toString().toCharArray()) {
+                    stack.push(c);
+                }
+            } else {
+                stack.push(ch);
+            }
+        }
+
+        // Construct the final result
+        StringBuilder result = new StringBuilder();
+        while (!stack.isEmpty()) {
+            result.append(stack.pop());
+        }
+
+        return result.reverse().toString(); // Since stack gives characters in reverse
+    }
+}
