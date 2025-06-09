@@ -1,0 +1,48 @@
+import java.util.Scanner;
+
+public class Solution {
+    public static int findJudge(int n, int[][] trust) {
+        int[] trustScore = new int[n + 1]; // Index 0 is unused
+
+        for (int[] t : trust) {
+            int a = t[0];
+            int b = t[1];
+            trustScore[a]--; // a trusts someone
+            trustScore[b]++; // b is trusted
+        }
+
+        for (int i = 1; i <= n; i++) {
+            if (trustScore[i] == n - 1) {
+                return i; // Judge found
+            }
+        }
+
+        return -1; // No judge
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Input: number of people
+        System.out.print("Enter number of people (n): ");
+        int n = sc.nextInt();
+
+        // Input: number of trust pairs
+        System.out.print("Enter number of trust pairs: ");
+        int m = sc.nextInt();
+
+        // Input: trust pairs
+        int[][] trust = new int[m][2];
+        System.out.println("Enter each trust pair (a b):");
+        for (int i = 0; i < m; i++) {
+            trust[i][0] = sc.nextInt();
+            trust[i][1] = sc.nextInt();
+        }
+
+        // Find and display the town judge
+        int result = findJudge(n, trust);
+        System.out.println("Output: " + result);
+
+        sc.close();
+    }
+}
