@@ -1,0 +1,37 @@
+import java.util.Arrays;
+
+public class SubsetSum {
+
+    public static boolean isSubsetSum(int[] arr, int n, int target, Boolean[][] memo) {
+         
+        if (target == 0) return true;
+        if (n == 0) return false;
+
+         
+        if (memo[n][target] != null) {
+            return memo[n][target];
+        }
+
+        if (arr[n - 1] > target) {
+            memo[n][target] = isSubsetSum(arr, n - 1, target, memo);
+        } else {
+            memo[n][target] = isSubsetSum(arr, n - 1, target, memo) ||
+                              isSubsetSum(arr, n - 1, target - arr[n - 1], memo);
+        }
+
+        return memo[n][target];
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {3, 34, 4, 12, 5, 2};
+        int target = 9;
+        int n = arr.length;
+        Boolean[][] memo = new Boolean[n + 1][target + 1];
+        for (Boolean[] row : memo) {
+            Arrays.fill(row, null);
+        }
+
+        boolean result = isSubsetSum(arr, n, target, memo);
+        System.out.println("Subset with given sum exists: " + result);
+    }
+}
